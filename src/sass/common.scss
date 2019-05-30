@@ -1,0 +1,82 @@
+@import "./function.scss";
+@import "./variable.scss";
+
+* {
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: red;
+}
+
+.relative {
+    position: relative;
+}
+
+.font-bold {
+    font-weight: 500;
+}
+
+.txt-right {
+    text-align: right;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.clear {
+
+    &:before,
+    &:after {
+        content: '';
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+button {
+    border: none;
+
+    &::after {
+        border: none;
+    }
+}
+
+.default-size-btn {
+    font-size: rpx(14);
+    height: rpx(30);
+    line-height: rpx(30);
+    padding: 0 rpx(20);
+    display: inline-block;
+}
+
+.primary-btn {
+    color: #fff;
+    @include gradient($primary-color, $second-color);
+    box-shadow: 0 rpx(3) rpx(5) 0 rgba($primary-color, 0.1);
+}
+
+.pill {
+    border-radius: rpx(200);
+}
+
+.tag {
+    padding: rpx(3) rpx(10);
+    border-radius: rpx(2);
+    font-size: rpx(12);
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+
+    &.primary-light {
+        color: darken($primary-light-color, 30%);
+        background-color: #E9E9E9;
+    }
+}

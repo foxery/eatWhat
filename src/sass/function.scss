@@ -1,0 +1,20 @@
+@function rpx($px){
+    @return $px * 2rpx; 
+}
+
+@function calcwidth($col){
+    @return 100% / $col;
+}
+
+@mixin gradient($start,$end,$type:to right,$percent:60%){
+    background:-moz-linear-gradient($type,$start $percent, $end);  
+    background:-webkit-gradient($type,$start $percent, $end);  
+    background:-o-linear-gradient($type,$start $percent, $end); 
+    background:linear-gradient($type,$start $percent, $end); 
+}
+
+%ellipsis{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}

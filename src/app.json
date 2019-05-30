@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/list/main",
+    "pages/detail/main",
+    "pages/ingredients/main",
+    "pages/menu/main",
+    "pages/logs/main",
+    "pages/counter/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "今天吃什么",
+    "navigationBarTextStyle": "black"
+  }
+}
