@@ -4,14 +4,14 @@
       type="text"
       class="search-input"
       placeholder-style="color: #cacaca;"
-      placeholder="搜索..."
-      confirm-type="search"
+      :placeholder="placeholder"
+      :confirm-type="btnType"
       @focus="focus"
       @blur="blur"
       :class="{'focus':isFocus}"
     >
     <image
-      src="/static/images/icn_search.png"
+      :src="icn"
       alt=""
       mode="widthFix"
       class="search-icn"
@@ -22,7 +22,20 @@
 
 <script>
 export default {
-  props: ["text"],
+  props: {
+    icn: {
+      type: String,
+      default: "/static/images/icn_search.png"
+    },
+    placeholder: {
+      type: String,
+      default: "搜索..."
+    },
+    btnType: {
+      type: String,
+      default: "search"
+    }
+  },
   data() {
     return {
       isFocus: false
