@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <bottom-bar></bottom-bar>
+    <bottom-bar :active="'ingredients'"></bottom-bar>
   </div>
 </template>
 

@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <bottom-bar></bottom-bar>
+    <bottom-bar :active="'menu'"></bottom-bar>
   </div>
 </template>
 

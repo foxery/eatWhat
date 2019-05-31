@@ -16,8 +16,14 @@
           v-else
         ></image>
       </li>
-      <li @click="changeActive('food')" :class="{'animated bounce':active=='food'}">
-        <div class="middle-box" :class="{'active':active=='food'}">
+      <li
+        @click="changeActive('ingredients')"
+        :class="{'animated bounce':active=='ingredients'}"
+      >
+        <div
+          class="middle-box"
+          :class="{'active':active=='ingredients'}"
+        >
           <image
             src="/static/images/icn_food.png"
             alt=""
@@ -49,16 +55,25 @@
 
 <script>
 export default {
-  props: ["text"],
+  props: {
+    //index-首页  ingredients-食材 menu-菜单
+    active: {
+      type: String,
+      required: true,
+      default: "index"
+    }
+  },
   data() {
     return {
-      //index-首页  food-食材 menu-菜单
-      active: "index"
+      // active: "index"
     };
   },
   methods: {
     changeActive(active) {
       this.active = active;
+      wx.reLaunch({
+        url: "/pages/" + active + "/main"
+      });
     }
   }
 };

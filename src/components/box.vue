@@ -1,5 +1,8 @@
 <template>
-  <div class="box">
+  <div
+    class="box"
+    @click="turnToDetail(0)"
+  >
     <div class="menu-banner">
       <image
         src="/static/images/demo.jpg"
@@ -17,7 +20,8 @@
     </div>
     <div class="add-wrapper">
       <div class="add-box">
-        +
+        <template v-if="type=='add'">+</template>
+        <template v-else>-</template>
       </div>
     </div>
   </div>
@@ -25,7 +29,20 @@
 
 <script>
 export default {
-  props: ["text"]
+  props: {
+    //add-添加  delete-移除
+    type: {
+      type: String,
+      default: "add"
+    }
+  },
+  methods: {
+    turnToDetail(id) {
+      wx.navigateTo({
+        url: "/pages/detail/main?id=" + id
+      });
+    }
+  }
 };
 </script>
 

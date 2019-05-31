@@ -11,7 +11,10 @@
             mode="widthFix"
           ></image>
         </div>
-        <button class="primary-btn default-size-btn pill random-btn animated tada">随机</button>
+        <button
+          class="primary-btn default-size-btn pill random-btn animated tada"
+          @click="randomClick()"
+        >随机</button>
         <div class="random-wrapper">
           <ul class="random-categery-list clear">
             <li class="active">
@@ -78,12 +81,20 @@
         </div>
       </div>
       <div class="carte-wrapper">
-        <div class="more-link">查看全部 ></div>
+        <navigator
+          class="more-link"
+          url="/pages/list/main"
+          hover-class="none"
+        >查看全部 ></navigator>
         <carte-box></carte-box>
-        <div class="create-btn">+ 创建菜谱</div>
+        <navigator
+          class="create-btn"
+          url="/pages/create/main"
+          hover-class="none"
+        >+ 创建菜谱</navigator>
       </div>
     </div>
-    <bottom-bar></bottom-bar>
+    <bottom-bar :active="'index'"></bottom-bar>
   </div>
 </template>
 
@@ -115,6 +126,11 @@ export default {
     clickHandle(ev) {
       console.log("clickHandle:", ev);
       // throw {message: 'custom test'}
+    },
+    randomClick() {
+      wx.navigateTo({
+        url: "/pages/result/main"
+      });
     }
   },
 
@@ -241,6 +257,9 @@ export default {
   color: $primary-color;
   text-align: right;
   margin-bottom: rpx(10);
+  &:active {
+    background-color: transparent;
+  }
 }
 .create-btn {
   font-size: rpx(14);

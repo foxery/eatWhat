@@ -19,12 +19,10 @@
         <carte-box></carte-box>
       </div>
     </div>
-    <bottom-bar></bottom-bar>
   </div>
 </template>
 
 <script>
-import bottomBar from "@/components/bottomBar";
 import carte from "@/components/box";
 
 export default {
@@ -32,7 +30,6 @@ export default {
     return {};
   },
   components: {
-    "bottom-bar": bottomBar,
     "carte-box": carte
   }
 };

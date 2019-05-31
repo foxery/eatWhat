@@ -57,6 +57,11 @@ button {
     display: inline-block;
 }
 
+.block-btn {
+    display: block;
+    width: 100%;
+}
+
 .primary-btn {
     color: #fff;
     @include gradient($primary-color, $second-color);
