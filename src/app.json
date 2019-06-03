@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/create/main",
     "pages/index/main",
+    "pages/create/main",
     "pages/result/main",
     "pages/list/main",
     "pages/detail/main",

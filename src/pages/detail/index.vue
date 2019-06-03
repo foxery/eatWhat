@@ -27,6 +27,7 @@
         <div class="tag primary-light">荤菜</div>
         <div class="menu-info-title">菜谱名称</div>
       </div>
+      <div class="detail-subtitle title-primary">食材</div>
       <ul class="detail-ingredient-list">
         <li class="clear">
           <div class="left">食材</div>
@@ -41,7 +42,7 @@
           <div class="right">数量</div>
         </li>
       </ul>
-      <div class="detail-subtitle">做法</div>
+      <div class="detail-subtitle title-primary">做法</div>
       <div>
         <div class="do-title"></div>
         <div class="do-content">
@@ -64,7 +65,7 @@
           ></image>
         </div>
       </div>
-      <div class="detail-subtitle">温馨提示</div>
+      <div class="detail-subtitle title-primary">温馨提示</div>
       <div class="do-content">爸爸啦啦啦啦啦</div>
     </div>
   </div>
@@ -110,8 +111,6 @@ export default {
 .detail-ingredient-list {
   font-size: rpx(14);
   color: darken($primary-light-color, 40%);
-  border-top: rpx(1) solid $primary-light-color;
-  margin-top: rpx(20);
   > li {
     padding: rpx(5);
     border-radius: rpx(2);
@@ -130,11 +129,9 @@ export default {
   }
 }
 .detail-subtitle {
-  padding: rpx(10) rpx(5);
-  font-size: rpx(16);
-  font-weight: 500;
-  border-top: rpx(1) solid $primary-light-color;
+  padding: 0 rpx(5);
   margin-top: rpx(20);
+  margin-bottom: rpx(20);
 }
 .do-title {
   float: left;
@@ -173,18 +170,18 @@ export default {
     margin-top: rpx(3);
   }
 }
-.list-suspension-list{
-    border-radius: rpx(8);
-    background-color: #151722;
-    color: #fff;
-    font-size: rpx(14);
-    padding: rpx(10);
-    position: absolute;
-    right: 0;
-    bottom: rpx(45);
-    min-width: rpx(150);
-    >li{
-        white-space: nowrap;
-    }
+.list-suspension-list {
+  border-radius: rpx(8);
+  background-color: #151722;
+  color: #fff;
+  font-size: rpx(14);
+  padding: rpx(10);
+  position: absolute;
+  right: 0;
+  bottom: rpx(45);
+  min-width: rpx(150);
+  > li {
+    white-space: nowrap;
+  }
 }
 </style>

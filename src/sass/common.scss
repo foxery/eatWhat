@@ -85,3 +85,23 @@ button {
         background-color: #E9E9E9;
     }
 }
+
+.title-primary {
+    position: relative;
+    font-size: rpx(16);
+    font-weight: 500;
+    display: inline-block;
+    margin-top: rpx(20);
+    margin-bottom: rpx(10);
+
+    &:before {
+        content: "";
+        width: 60%;
+        height: rpx(8);
+        background-color: $primary-light-color;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+}

@@ -263,10 +263,10 @@ export default {
 }
 .create-btn {
   font-size: rpx(14);
-  color: darken($primary-color, 30%);
+  color: #AAA09F;
   box-sizing: border-box;
   border-radius: rpx(4);
-  border: rpx(1) solid $primary-color;
+  border: rpx(1) solid #DED4D2;
   width: 100%;
   height: rpx(35);
   line-height: rpx(35);
