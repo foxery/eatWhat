@@ -11,6 +11,7 @@
 
 <script>
 import carte from "@/components/box";
+import { json2Form, getCurrentPageUrlOptions } from "@/utils/index";
 
 export default {
   data() {
@@ -18,6 +19,10 @@ export default {
   },
   components: {
     "carte-box": carte
+  },
+  mounted() {
+    let temp = getCurrentPageUrlOptions();
+    console.log(temp);
   }
 };
 </script>

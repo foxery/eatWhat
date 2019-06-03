@@ -2,7 +2,10 @@
   <div class="container">
     <div class="wrapper">
       <div class="title">今天吃什么？</div>
-      <search-bar></search-bar>
+      <search-bar
+        @confirm="searchConfirm"
+        ref="searchBar"
+      ></search-bar>
       <div class="relative">
         <div class="banner-wrapper">
           <image
@@ -13,68 +16,40 @@
         </div>
         <button
           class="primary-btn default-size-btn pill random-btn animated tada"
-          @click="randomClick()"
+          @click="randomClick"
         >随机</button>
         <div class="random-wrapper">
           <ul class="random-categery-list clear">
-            <li class="active">
+            <li
+              :class="{active:randomActive==item.type}"
+              v-for="(item,index) in randomCategory"
+              :key="item.name"
+              @click="randomCategorySelect(item.type)"
+            >
               <div class="random-categery-wrapper">
-                <div class="change-amount-wrapper">
-                  <div class="amount-box">+</div>
-                  <div class="amount-box decrease">-</div>
+                <div
+                  class="change-amount-wrapper"
+                  v-if="randomActive==item.type"
+                >
+                  <div
+                    class="amount-box"
+                    @click="addAmount(index,item.amount)"
+                  >+</div>
+                  <div
+                    class="amount-box decrease"
+                    @click="decreaseAmount(index,item.amount)"
+                  >-</div>
                 </div>
                 <div class="icn-wrapper">
                   <image
-                    src="/static/images/category_icn_meat.png"
+                    :src="item.icn"
                     alt=""
                     mode="widthFix"
                   ></image>
                 </div>
-                <div>荤菜</div>
+                <div>{{item.name}}</div>
                 <div class="line"></div>
-                <div class="amount">1</div>
-              </div>
-            </li>
-            <li>
-              <div class="random-categery-wrapper">
-                <div class="icn-wrapper">
-                  <image
-                    src="/static/images/category_icn_vegetables.png"
-                    alt=""
-                    mode="widthFix"
-                  ></image>
-                </div>
-                <div>素菜</div>
-                <div class="line"></div>
-                <div class="amount">1</div>
-              </div>
-            </li>
-            <li>
-              <div class="random-categery-wrapper">
-                <div class="icn-wrapper">
-                  <image
-                    src="/static/images/category_icn_hulfmeat.png"
-                    alt=""
-                    mode="widthFix"
-                  ></image>
-                </div>
-                <div>半荤</div>
-                <div class="line"></div>
-                <div class="amount">1</div>
-              </div>
-            </li>
-            <li>
-              <div class="random-categery-wrapper">
-                <div class="icn-wrapper">
-                  <image
-                    src="/static/images/category_icn_soup.png"
-                    alt=""
-                    mode="widthFix"
-                  ></image>
-                </div>
-                <div>汤</div>
-                <div class="line"></div>
-                <div class="amount">1</div>
+                <div class="amount">{{item.amount}}</div>
               </div>
             </li>
           </ul>
@@ -105,7 +80,36 @@ import carte from "@/components/box";
 
 export default {
   data() {
-    return {};
+    return {
+      //1-荤菜  2-素菜 3-半荤 4-汤
+      randomActive: 0,
+      randomCategory: [
+        {
+          name: "荤菜",
+          amount: 1,
+          icn: "/static/images/category_icn_meat.png",
+          type: 1
+        },
+        {
+          name: "素菜",
+          amount: 1,
+          icn: "/static/images/category_icn_vegetables.png",
+          type: 2
+        },
+        {
+          name: "半荤",
+          amount: 1,
+          icn: "/static/images/category_icn_hulfmeat.png",
+          type: 3
+        },
+        {
+          name: "汤",
+          amount: 1,
+          icn: "/static/images/category_icn_soup.png",
+          type: 4
+        }
+      ]
+    };
   },
 
   components: {
@@ -128,8 +132,28 @@ export default {
       // throw {message: 'custom test'}
     },
     randomClick() {
+      let info = JSON.stringify(this.randomCategory);
       wx.navigateTo({
-        url: "/pages/result/main"
+        url: "/pages/result/main?category=" + info
+      });
+    },
+    randomCategorySelect(type) {
+      this.randomActive = type;
+    },
+    addAmount(index, amount) {
+      amount++;
+      this.$set(this.randomCategory[index], "amount", amount);
+    },
+    decreaseAmount(index, amount) {
+      if (amount > 0) {
+        amount--;
+        this.$set(this.randomCategory[index], "amount", amount);
+      }
+    },
+    searchConfirm() {
+      let val = this.$refs.searchBar.getInputValue();
+      wx.navigateTo({
+        url: "/pages/result/main?kw=" + val
       });
     }
   },
@@ -263,10 +287,10 @@ export default {
 }
 .create-btn {
   font-size: rpx(14);
-  color: #AAA09F;
+  color: #aaa09f;
   box-sizing: border-box;
   border-radius: rpx(4);
-  border: rpx(1) solid #DED4D2;
+  border: rpx(1) solid #ded4d2;
   width: 100%;
   height: rpx(35);
   line-height: rpx(35);

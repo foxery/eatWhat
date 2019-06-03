@@ -9,6 +9,8 @@
       @focus="focus"
       @blur="blur"
       :class="{'focus':isFocus}"
+      @confirm="confirmEvent"
+      v-model="val"
     >
     <image
       :src="icn"
@@ -38,7 +40,8 @@ export default {
   },
   data() {
     return {
-      isFocus: false
+      isFocus: false,
+      val: ""
     };
   },
   methods: {
@@ -47,6 +50,12 @@ export default {
     },
     blur() {
       this.isFocus = false;
+    },
+    confirmEvent() {
+      this.$emit("confirm");
+    },
+    getInputValue() {
+      return this.val;
     }
   }
 };

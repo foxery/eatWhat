@@ -1,9 +1,9 @@
-function formatNumber (n) {
+function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
 
-export function formatTime (date) {
+export function formatTime(date) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -18,7 +18,29 @@ export function formatTime (date) {
   return `${t1} ${t2}`
 }
 
+/**
+ * 异步请求参数需要格式转化
+ * @param {*} json 
+ */
+export function json2Form(json) {
+  var str = [];
+  for (var p in json) {
+    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(json[p]));
+  }
+  return str.join("&");
+}
+
+/*获取当前页url的参数*/
+export function getCurrentPageUrlOptions() {
+  var pages = getCurrentPages()    //获取加载的页面
+  var currentPage = pages[pages.length - 1]    //获取当前页面的对象
+  var options = currentPage.options     //当前页面url
+  return options
+}
+
 export default {
   formatNumber,
-  formatTime
+  formatTime,
+  getCurrentPageUrlOptions,
+  json2Form
 }
