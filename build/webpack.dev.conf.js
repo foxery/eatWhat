@@ -37,7 +37,8 @@ module.exports = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.dev.env
+      'process.env': config.dev.env,
+      'APPAPI_URL': '"https://api.narro.me/food/v1"',
     }),
 
     // copy from ./webpack.prod.conf.js

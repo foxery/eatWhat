@@ -30,7 +30,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': env,
+      'APPAPI_URL': '"https://api.narro.me/food/v1"',
     }),
     // extract css into its own file
     new ExtractTextPlugin({

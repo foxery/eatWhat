@@ -77,6 +77,7 @@
 import bottomBar from "@/components/bottomBar";
 import search from "@/components/search";
 import carte from "@/components/box";
+import { json2Form } from "@/utils/index";
 
 export default {
   data() {
@@ -117,20 +118,10 @@ export default {
     "search-bar": search,
     "carte-box": carte
   },
-
+  mounted() {
+    this.login();
+  },
   methods: {
-    bindViewTap() {
-      const url = "../logs/main";
-      if (mpvuePlatform === "wx") {
-        mpvue.switchTab({ url });
-      } else {
-        mpvue.navigateTo({ url });
-      }
-    },
-    clickHandle(ev) {
-      console.log("clickHandle:", ev);
-      // throw {message: 'custom test'}
-    },
     randomClick() {
       let info = JSON.stringify(this.randomCategory);
       wx.navigateTo({
@@ -155,11 +146,35 @@ export default {
       wx.navigateTo({
         url: "/pages/result/main?kw=" + val
       });
+    },
+    login() {
+      wx.checkSession({
+        success() {
+          // session_key 未过期，并且在本生命周期一直有效
+        },
+        fail() {
+          // session_key 已经失效，需要重新执行登录流程
+          wx.login({
+            success(res) {
+              if (res.code) {
+                // 这里可以把code传给后台，后台用此获取openid及session_key
+                wx.request({
+                  url: APPAPI_URL + "/user/login",
+                  data: json2Form({
+                    Code: res.code
+                  }),
+                  header: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                  },
+                  method: "POST",
+                  success: function(res) {}
+                });
+              }
+            }
+          }); // 重新登录
+        }
+      });
     }
-  },
-
-  created() {
-    // let app = getApp()
   }
 };
 </script>
