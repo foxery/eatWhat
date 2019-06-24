@@ -78,6 +78,7 @@ import bottomBar from "@/components/bottomBar";
 import search from "@/components/search";
 import carte from "@/components/box";
 import { json2Form } from "@/utils/index";
+import request from "@/utils/http";
 
 export default {
   data() {
@@ -148,32 +149,11 @@ export default {
       });
     },
     login() {
-      wx.checkSession({
-        success() {
-          // session_key 未过期，并且在本生命周期一直有效
-        },
-        fail() {
-          // session_key 已经失效，需要重新执行登录流程
-          wx.login({
-            success(res) {
-              if (res.code) {
-                // 这里可以把code传给后台，后台用此获取openid及session_key
-                wx.request({
-                  url: APPAPI_URL + "/user/login",
-                  data: json2Form({
-                    Code: res.code
-                  }),
-                  header: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                  },
-                  method: "POST",
-                  success: function(res) {}
-                });
-              }
-            }
-          }); // 重新登录
-        }
-      });
+      request({
+        url: "/user/info",
+        method: "get",
+        mask: true
+      }).then(() => {});
     }
   }
 };
