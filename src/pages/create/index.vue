@@ -157,6 +157,7 @@
 
 <script>
 import editBar from "@/components/search";
+import request from "@/utils/http";
 
 export default {
   data() {
@@ -207,49 +208,52 @@ export default {
       let name = this.$refs.name.getInputValue();
       let iTemp = this.ingredientsArr.filter(item => item.Name != "");
       let sTemp = this.stepArr.filter(item => item.Detail != "");
-      // if (!this.name) {
-      //   wx.showToast({
-      //     icon: "none",
-      //     title: "请填写菜谱名称",
-      //     duration: 2000
-      //   });
-      //   return;
-      // }
-      // if (!this.coverUrl) {
-      //   wx.showToast({
-      //     icon: "none",
-      //     title: "请选择菜谱封面",
-      //     duration: 2000
-      //   });
-      //   return;
-      // }
-      // if (this.categoryType == 0) {
-      //   wx.showToast({
-      //     icon: "none",
-      //     title: "请选择菜谱分类",
-      //     duration: 2000
-      //   });
-      //   return;
-      // }
-      // if (iTemp.length == 0) {
-      //   wx.showToast({
-      //     icon: "none",
-      //     title: "请填写需要的食材",
-      //     duration: 2000
-      //   });
-      //   return;
-      // }
-      // if (sTemp.length == 0) {
-      //   wx.showToast({
-      //     icon: "none",
-      //     title: "请填写做菜的步骤",
-      //     duration: 2000
-      //   });
-      //   return;
-      // }
-      debugger;
+      if (!name) {
+        wx.showToast({
+          icon: "none",
+          title: "请填写菜谱名称",
+          duration: 2000
+        });
+        return;
+      }
+      if (!this.coverUrl) {
+        wx.showToast({
+          icon: "none",
+          title: "请选择菜谱封面",
+          duration: 2000
+        });
+        return;
+      }
+      if (this.categoryType == 0) {
+        wx.showToast({
+          icon: "none",
+          title: "请选择菜谱分类",
+          duration: 2000
+        });
+        return;
+      }
+      if (iTemp.length == 0) {
+        wx.showToast({
+          icon: "none",
+          title: "请填写需要的食材",
+          duration: 2000
+        });
+        return;
+      }
+      if (sTemp.length == 0) {
+        wx.showToast({
+          icon: "none",
+          title: "请填写做菜的步骤",
+          duration: 2000
+        });
+        return;
+      }
       sTemp = sTemp.map(value => {
         value.Imgs = value.Imgs.join(",");
+        return value;
+      });
+      iTemp = iTemp.map(value => {
+        value.Number = +value.Number;
         return value;
       });
       let info = {
@@ -257,10 +261,23 @@ export default {
         Cover: this.coverUrl,
         Remark: this.remark,
         Category: this.categoryType,
-        Step: JSON.stringify(sTemp),
-        Ingredients: JSON.stringify(iTemp)
+        Step: sTemp,
+        Ingredients: iTemp
       };
-      console.log(info);
+      request({
+        url: "/menu",
+        mask: true,
+        data: info
+      }).then(res => {
+        wx.showToast({
+          icon: "none",
+          title: "菜谱创建成功",
+          duration: 2000
+        });
+        wx.navigateTo({
+          url: "/pages/detail/main?id=" + res.Id
+        });
+      });
     },
     selectCategory(type) {
       this.categoryType = type;

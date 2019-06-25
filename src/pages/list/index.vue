@@ -2,17 +2,13 @@
   <div class="container">
     <div class="wrapper">
       <ul class="tab-list clear">
-        <li class="active">
-          <div class="inner">荤菜</div>
-        </li>
-        <li>
-          <div class="inner">素菜</div>
-        </li>
-        <li>
-          <div class="inner">半荤</div>
-        </li>
-        <li>
-          <div class="inner">汤</div>
+        <li
+          v-for="item in categoryArr"
+          :key="item.type"
+          :class="{active:item.type==categoryType}"
+          @click="selectCategory(item.type)"
+        >
+          <div class="inner">{{item.name}}</div>
         </li>
       </ul>
       <div class="carte-box-wrapper">
@@ -27,10 +23,36 @@ import carte from "@/components/box";
 
 export default {
   data() {
-    return {};
+    return {
+      //1-荤菜  2-素菜 3-半荤 4-汤
+      categoryType: "",
+      categoryArr: [
+        {
+          name: "荤菜",
+          type: 1
+        },
+        {
+          name: "素菜",
+          type: 2
+        },
+        {
+          name: "半荤",
+          type: 3
+        },
+        {
+          name: "汤",
+          type: 4
+        }
+      ]
+    };
   },
   components: {
     "carte-box": carte
+  },
+  methods: {
+    selectCategory(type) {
+      this.categoryType = type;
+    }
   }
 };
 </script>

@@ -1,12 +1,12 @@
 {
   "pages": [
-    "pages/create/main",
     "pages/index/main",
-    "pages/result/main",
-    "pages/list/main",
-    "pages/detail/main",
     "pages/ingredients/main",
     "pages/menu/main",
+    "pages/list/main",
+    "pages/result/main",
+    "pages/detail/main",
+    "pages/create/main",
     "pages/logs/main",
     "pages/counter/main"
   ],

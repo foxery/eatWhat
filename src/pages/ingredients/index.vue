@@ -11,20 +11,18 @@
         </div>
         <div class="list-wrapper">
           <ul class="ingredient-list">
-            <li class="clear">
+            <li
+              class="clear"
+              v-for="(item,index) in ingredientsArr"
+              :key="item.Name"
+              :class="{complete:item.Completed}"
+              @click="complete(index)"
+            >
               <div class="line-through"></div>
               <div class="click-box"></div>
               <div class="i-block-middle clear">
-                <div class="left">土豆</div>
-                <div class="ingredient-amount right">500g</div>
-              </div>
-            </li>
-            <li class="clear complete">
-              <div class="line-through"></div>
-              <div class="click-box"></div>
-              <div class="i-block-middle clear">
-                <div class="left">土豆</div>
-                <div class="ingredient-amount right">500g</div>
+                <div class="left">{{item.Name}}</div>
+                <div class="ingredient-amount right">{{item.Number}}{{item.Unit}}</div>
               </div>
             </li>
           </ul>
@@ -40,10 +38,44 @@ import bottomBar from "@/components/bottomBar";
 
 export default {
   data() {
-    return {};
+    return {
+      ingredientsArr: [
+        {
+          Name: "土豆",
+          Unit: "个",
+          Number: "2"
+        },
+        {
+          Name: "茄子",
+          Unit: "个",
+          Number: "10"
+        },
+        {
+          Name: "鸡腿",
+          Unit: "个",
+          Number: "1"
+        }
+      ]
+    };
   },
   components: {
     "bottom-bar": bottomBar
+  },
+  mounted() {
+    this.ingredientsArr = this.ingredientsArr.map(val => {
+      val.Completed = false;
+      return val;
+    });
+  },
+  methods: {
+    complete(index) {
+      if (!this.ingredientsArr[index].Completed) {
+        this.ingredientsArr[index].Completed = true;
+        let temp = this.ingredientsArr[index];
+        this.ingredientsArr.splice(index, 1);
+        this.ingredientsArr.push(temp);
+      }
+    }
   }
 };
 </script>
@@ -97,7 +129,7 @@ export default {
         background-color: $primary-color;
       }
       .line-through {
-        width:86%;
+        width: 86%;
       }
     }
   }

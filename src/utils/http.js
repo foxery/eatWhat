@@ -13,9 +13,8 @@ function request(options) {
         }
         const headers = (options.header = options.header || {});
         let url = options.url;
-        url = APPAPI_URL + url;
+        url = APPAPI_URL + url + "?Token=" + wx.getStorageSync('token');
         let data = options.data || {};
-        data.Token = wx.getStorageSync('token');
         wx.request({
             url: url,
             data: data,

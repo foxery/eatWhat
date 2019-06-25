@@ -1,14 +1,21 @@
 <template>
   <div class="container">
     <div class="list-suspension-wrapper">
-      <div class="list-btn">
+      <div
+        class="list-btn"
+        @click="toggleIngredientsBox"
+      >
         <image
           src="/static/images/icn_list.png"
           alt=""
           mode="widthFix"
         ></image>
       </div>
-      <ul class="list-suspension-list zoomIn animated">
+      <ul
+        class="list-suspension-list animated"
+        :class="[{zoomIn:!animatedIn},{zoomOut:animatedIn}]"
+        v-show="showIngredientsBox"
+      >
         <li class="clear">
           <div class="left">食材</div>
           <div class="right">数量</div>
@@ -74,9 +81,26 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      showIngredientsBox: false,
+      animatedIn: true
+    };
   },
-  components: {}
+  components: {},
+  methods: {
+    toggleIngredientsBox() {
+      if (this.animatedIn) {
+        this.showIngredientsBox = !this.showIngredientsBox;
+        this.animatedIn = false;
+      } else {
+        this.animatedIn = true;
+        // 配合动画效果
+        setTimeout(() => {
+          this.showIngredientsBox = !this.showIngredientsBox;
+        }, 1000);
+      }
+    }
+  }
 };
 </script>
 
