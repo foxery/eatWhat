@@ -249,7 +249,9 @@ export default {
         return;
       }
       sTemp = sTemp.map(value => {
-        value.Imgs = value.Imgs.join(",");
+        if (value.Imgs) {
+          value.Imgs = value.Imgs.join(",");
+        }
         return value;
       });
       iTemp = iTemp.map(value => {
@@ -274,9 +276,11 @@ export default {
           title: "菜谱创建成功",
           duration: 2000
         });
-        wx.navigateTo({
-          url: "/pages/detail/main?id=" + res.Id
-        });
+        setTimeout(() => {
+          wx.navigateTo({
+            url: "/pages/detail/main?id=" + res.Id
+          });
+        }, 2000);
       });
     },
     selectCategory(type) {

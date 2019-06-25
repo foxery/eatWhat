@@ -31,15 +31,9 @@ function request(options) {
                         case 403:
                             // token失效
                             login(options);
-                            break
+                            break;
                         default:
-                            let message = res.data.Message || "";
-                            wx.showToast({
-                                icon: 'none',
-                                mask: true,
-                                title: message,
-                                duration: 3000
-                            })
+                            toast(res.data.Code);
                     }
                     reject(res)
                 }
@@ -79,6 +73,36 @@ function login(options) {
                 });
             }
         }
+    });
+}
+
+function toast(code) {
+    let msg = "";
+    switch (code) {
+        case 400:
+            msg = "参数错误，别急，工程师在赶来的路上了";
+            break;
+        case 403:
+            msg = "你太年轻，权限不足";
+            break;
+        case 404:
+            msg = "啊哦，有什么东西失踪了";
+            break;
+        case 409:
+            msg = "这个菜谱已经存在啦，换一个吧";
+            break;
+        case 500:
+            msg = "服务器不行了，工程师正在抢救";
+            break;
+        default:
+            msg = "出现了未知错误，您先去别处玩会，等会再来";
+            break;
+    }
+    wx.showToast({
+        icon: 'none',
+        mask: true,
+        title: msg,
+        duration: 3000
     });
 }
 
