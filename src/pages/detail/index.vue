@@ -16,9 +16,16 @@
         :class="[{zoomIn:!animatedIn},{zoomOut:animatedIn}]"
         v-show="showIngredientsBox"
       >
-        <li class="clear">
+        <li
+          class="clear"
+          v-for="item in detailData.Ingredients"
+          :key="item.ID"
+        >
           <div class="left">食材</div>
-          <div class="right">数量</div>
+          <div class="right">
+            <span>{{item.Number}}</span>
+            <span>单位</span>
+          </div>
         </li>
       </ul>
     </div>
@@ -31,40 +38,32 @@
         ></image>
       </div>
       <div class="detail-title-wrapper">
-        <div class="tag primary-light">荤菜</div>
-        <div class="menu-info-title">菜谱名称</div>
+        <div class="tag primary-light">{{curCategoryName}}</div>
+        <div class="menu-info-title">{{detailData.Name}}</div>
       </div>
       <div class="detail-subtitle title-primary">食材</div>
       <ul class="detail-ingredient-list">
-        <li class="clear">
+        <li
+          class="clear"
+          v-for="item in detailData.Ingredients"
+          :key="item.ID"
+        >
           <div class="left">食材</div>
-          <div class="right">数量</div>
-        </li>
-        <li class="clear">
-          <div class="left">食材</div>
-          <div class="right">数量</div>
-        </li>
-        <li class="clear">
-          <div class="left">食材</div>
-          <div class="right">数量</div>
+          <div class="right">
+            <span>{{item.Number}}</span>
+            <span>单位</span>
+          </div>
         </li>
       </ul>
       <div class="detail-subtitle title-primary">做法</div>
-      <div>
+      <div
+        class="do-box"
+        v-for="item in detailData.Step"
+        :key="item.ID"
+      >
         <div class="do-title"></div>
         <div class="do-content">
-          <div>皮卡丘皮卡丘屏情况去取票去看看前几年今年初积极参加搜索框里PSP清扫口时空可行性没开吗小客车能看出你</div>
-          <image
-            src="/static/images/demo.jpg"
-            alt=""
-            mode="widthFix"
-          ></image>
-        </div>
-      </div>
-      <div class="do-box">
-        <div class="do-title"></div>
-        <div class="do-content">
-          <div>皮卡丘皮卡丘屏情况去取票去看看前几年今年初积极参加搜索框里PSP清扫口时空可行性没开吗小客车能看出你</div>
+          <div>{{item.Detail}}</div>
           <image
             src="/static/images/demo.jpg"
             alt=""
@@ -73,20 +72,51 @@
         </div>
       </div>
       <div class="detail-subtitle title-primary">温馨提示</div>
-      <div class="do-content">爸爸啦啦啦啦啦</div>
+      <div class="do-content">{{detailData.Remark}}</div>
     </div>
   </div>
 </template>
 
 <script>
+import request from "@/utils/http";
+import { getCurrentPageUrlOptions } from "@/utils/index";
+
 export default {
   data() {
     return {
       showIngredientsBox: false,
-      animatedIn: true
+      animatedIn: true,
+      categoryArr: [
+        {
+          name: "荤菜",
+          type: 1
+        },
+        {
+          name: "素菜",
+          type: 2
+        },
+        {
+          name: "半荤",
+          type: 3
+        },
+        {
+          name: "汤",
+          type: 4
+        }
+      ],
+      curCategoryName: "",
+      detailData: {
+        Name: "",
+        Ingredients: [],
+        Step: [],
+        Remark: ""
+      }
     };
   },
   components: {},
+  mounted() {
+    this.getDetail();
+  },
   methods: {
     toggleIngredientsBox() {
       if (this.animatedIn) {
@@ -99,6 +129,23 @@ export default {
           this.showIngredientsBox = !this.showIngredientsBox;
         }, 1000);
       }
+    },
+    getDetail() {
+      request({
+        url: "/menu/info",
+        mask: true,
+        data: {
+          ID: getCurrentPageUrlOptions().id
+        },
+        method: "GET"
+      }).then(res => {
+        this.detailData = res;
+        this.categoryArr.forEach(val => {
+          if (val.type == res.Category) {
+            this.curCategoryName = val.name;
+          }
+        });
+      });
     }
   }
 };
@@ -144,11 +191,6 @@ export default {
     }
     &:nth-child(2n + 1) {
       background-color: #fff;
-    }
-    &:first-child {
-      padding: rpx(10) rpx(5);
-      font-size: rpx(16);
-      font-weight: 500;
     }
   }
 }

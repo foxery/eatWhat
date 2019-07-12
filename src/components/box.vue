@@ -1,24 +1,26 @@
 <template>
-  <div
-    class="box"
-    @click="turnToDetail(0)"
-  >
-    <div class="menu-banner">
-      <image
-        src="/static/images/demo.jpg"
-        alt=""
-        mode="widthFix"
-      >
-      </image>
-    </div>
-    <div class="menu-info-wrapper">
-      <div>
-        <div class="tag primary-light">荤菜</div>
-        <div class="menu-info-title">菜谱名称</div>
+  <div class="box">
+    <div @click="turnToDetail(3)">
+      <div class="menu-banner">
+        <image
+          src="/static/images/demo.jpg"
+          alt=""
+          mode="widthFix"
+        >
+        </image>
       </div>
-      <div class="menu-info-text">所需食材</div>
+      <div class="menu-info-wrapper">
+        <div>
+          <div class="tag primary-light">荤菜</div>
+          <div class="menu-info-title">菜谱名称</div>
+        </div>
+        <div class="menu-info-text">所需食材</div>
+      </div>
     </div>
-    <div class="add-wrapper">
+    <div
+      class="add-wrapper"
+      @click="changeTodayMenu(3)"
+    >
       <div class="add-box">
         <template v-if="type=='add'">+</template>
         <template v-else>-</template>
@@ -28,6 +30,8 @@
 </template>
 
 <script>
+import request from "@/utils/http";
+
 export default {
   props: {
     //add-添加  delete-移除
@@ -41,6 +45,24 @@ export default {
       wx.navigateTo({
         url: "/pages/detail/main?id=" + id
       });
+    },
+    changeTodayMenu(id) {
+      if (this.type == "add") {
+        request({
+          url: "/today/menu",
+          mask: true,
+          data: {
+            MenuID: [id]
+          },
+          method: "PUT"
+        }).then(() => {
+          wx.showToast({
+            icon: "none",
+            title: "成功添加今日菜单",
+            duration: 2000
+          });
+        });
+      }
     }
   }
 };

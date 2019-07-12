@@ -278,9 +278,9 @@ export default {
         });
         setTimeout(() => {
           wx.navigateTo({
-            url: "/pages/detail/main?id=" + res.Id
+            url: "/pages/detail/main?id=" + res.ID
           });
-        }, 2000);
+        }, 1000);
       });
     },
     selectCategory(type) {
