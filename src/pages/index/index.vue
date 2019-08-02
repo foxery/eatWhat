@@ -61,7 +61,9 @@
           url="/pages/list/main"
           hover-class="none"
         >查看全部 ></navigator>
-        <carte-box></carte-box>
+        <template v-for="item in menuList">
+          <carte-box :key="item.ID" :info="item"></carte-box>
+        </template>
         <navigator
           class="create-btn"
           url="/pages/create/main"
@@ -79,48 +81,28 @@ import search from "@/components/search";
 import carte from "@/components/box";
 import { json2Form } from "@/utils/index";
 import request from "@/utils/http";
+import store from "@/utils/store";
 
 export default {
   data() {
     return {
       //1-荤菜  2-素菜 3-半荤 4-汤
       randomActive: 0,
-      randomCategory: [
-        {
-          name: "荤菜",
-          amount: 1,
-          icn: "/static/images/category_icn_meat.png",
-          type: 1
-        },
-        {
-          name: "素菜",
-          amount: 1,
-          icn: "/static/images/category_icn_vegetables.png",
-          type: 2
-        },
-        {
-          name: "半荤",
-          amount: 1,
-          icn: "/static/images/category_icn_hulfmeat.png",
-          type: 3
-        },
-        {
-          name: "汤",
-          amount: 1,
-          icn: "/static/images/category_icn_soup.png",
-          type: 4
-        }
-      ]
+      menuList: []
     };
   },
-
+  computed: {
+    randomCategory() {
+      return store.state.category;
+    }
+  },
   components: {
     "bottom-bar": bottomBar,
     "search-bar": search,
     "carte-box": carte
   },
   mounted() {
-    this.login();
+    this.getMenuList();
   },
   methods: {
     randomClick() {
@@ -148,12 +130,18 @@ export default {
         url: "/pages/result/main?kw=" + val
       });
     },
-    login() {
+    getMenuList() {
       request({
-        url: "/user/info",
-        method: "get",
-        mask: true
-      }).then(() => {});
+        url: "/menu/list",
+        method: "GET",
+        data: {
+          Page: 0,
+          Category: 0,
+          Keyword: ""
+        }
+      }).then(res => {
+        this.menuList = res;
+      });
     }
   }
 };

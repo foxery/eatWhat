@@ -1,9 +1,12 @@
 <template>
-  <div class="box">
-    <div @click="turnToDetail(3)">
+  <div
+    class="box"
+    v-if="boxInfo.ID>0"
+  >
+    <div @click="turnToDetail(boxInfo.ID)">
       <div class="menu-banner">
         <image
-          src="/static/images/demo.jpg"
+          :src="boxInfo.Cover"
           alt=""
           mode="widthFix"
         >
@@ -11,10 +14,10 @@
       </div>
       <div class="menu-info-wrapper">
         <div>
-          <div class="tag primary-light">荤菜</div>
-          <div class="menu-info-title">菜谱名称</div>
+          <div class="tag primary-light">{{boxInfo.CategoryName}}</div>
+          <div class="menu-info-title">{{boxInfo.Name}}</div>
         </div>
-        <div class="menu-info-text">所需食材</div>
+        <div class="menu-info-text">{{boxInfo.ingredientsText}}</div>
       </div>
     </div>
     <div
@@ -31,6 +34,7 @@
 
 <script>
 import request from "@/utils/http";
+import store from "@/utils/store";
 
 export default {
   props: {
@@ -38,6 +42,48 @@ export default {
     type: {
       type: String,
       default: "add"
+    },
+    info: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      boxInfo: {
+        ID: 0,
+        CategoryName: "",
+        Cover: "",
+        Name: "",
+        ingredientsText: ""
+      }
+    };
+  },
+  computed: {
+    category() {
+      return store.state.category;
+    }
+  },
+  mounted() {
+    if (this.info.ID > 0) {
+      this.boxInfo = this.info;
+      this.category.forEach(val => {
+        if (val.type == this.boxInfo.Category) {
+          this.boxInfo.CategoryName = val.name;
+        }
+      });
+      let ingredientsText = "";
+      for (let i = 0; i < this.boxInfo.Ingredients.length; i++) {
+        ingredientsText +=
+          this.boxInfo.Ingredients[i].Name +
+          this.boxInfo.Ingredients[i].Number +
+          this.boxInfo.Ingredients[i].Unit +
+          "、";
+      }
+      this.boxInfo.ingredientsText = ingredientsText.substr(
+        0,
+        ingredientsText.length - 1
+      );
     }
   },
   methods: {
@@ -76,6 +122,9 @@ export default {
   border-radius: rpx(8);
   box-shadow: 0 0 rpx(5) 0 rgba(0, 0, 0, 0.1);
   position: relative;
+  + .box {
+    margin-top: rpx(10);
+  }
 }
 .menu-banner {
   width: 100%;
