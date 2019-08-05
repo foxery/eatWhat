@@ -62,7 +62,10 @@
           hover-class="none"
         >查看全部 ></navigator>
         <template v-for="item in menuList">
-          <carte-box :key="item.ID" :info="item"></carte-box>
+          <carte-box
+            :key="item.ID"
+            :info="item"
+          ></carte-box>
         </template>
         <navigator
           class="create-btn"
@@ -106,9 +109,16 @@ export default {
   },
   methods: {
     randomClick() {
-      let info = JSON.stringify(this.randomCategory);
+      let info = [];
+      console.log(this.randomCategory);
+      for (let i = 0; i < this.randomCategory.length; i++) {
+        info.push({
+          ID: this.randomCategory[i].type,
+          Num: this.randomCategory[i].amount
+        });
+      }
       wx.navigateTo({
-        url: "/pages/result/main?category=" + info
+        url: "/pages/result/main?random=" + JSON.stringify(info)
       });
     },
     randomCategorySelect(type) {

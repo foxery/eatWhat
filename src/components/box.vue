@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="box"
-  >
+  <div class="box">
     <div @click="turnToDetail(boxInfo.ID)">
       <div class="menu-banner">
         <image
@@ -24,7 +22,7 @@
       @click="changeTodayMenu(3)"
     >
       <div class="add-box">
-        <template v-if="type=='add'">+</template>
+        <template v-if="type==1">+</template>
         <template v-else>-</template>
       </div>
     </div>
@@ -37,10 +35,10 @@ import store from "@/utils/store";
 
 export default {
   props: {
-    //add-添加  delete-移除
+    //1-添加到今日菜单  2-删除
     type: {
       type: String,
-      default: "add"
+      default: 1
     },
     info: {
       type: Object,
@@ -93,7 +91,7 @@ export default {
       });
     },
     changeTodayMenu(id) {
-      if (this.type == "add") {
+      if (this.type == 1) {
         request({
           url: "/today/menu",
           mask: true,
@@ -108,6 +106,8 @@ export default {
             duration: 2000
           });
         });
+      } else {
+        this.$emit("deleteMenu");
       }
     }
   }

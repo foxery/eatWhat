@@ -12,7 +12,7 @@
         </div>
         <button class="primary-btn default-size-btn pill random-btn animated tada">清空全部菜单</button>
         <div class="list-wrapper">
-          <carte-box :type="'delete'"></carte-box>
+          <carte-box :type="2"></carte-box>
         </div>
       </div>
     </div>

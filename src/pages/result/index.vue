@@ -2,13 +2,14 @@
   <div class="container">
     <div class="wrapper">
       <div class="carte-box-wrapper">
-        <template v-for="item in menuList">
-          <carte-box
-            :key="item.ID"
-            :info="item"
-            :type="'delete'"
-          ></carte-box>
-        </template>
+        <carte-box
+          v-for="(item,index) in menuList"
+          :key="item.ID"
+          :info="item"
+          :type="2"
+          ref="menu"
+          @deleteMenu="deleteMenu(index)"
+        ></carte-box>
       </div>
     </div>
     <button class="default-size-btn primary-btn block-btn all-btn-position">全部加入今日菜单</button>
@@ -24,7 +25,8 @@ export default {
   data() {
     return {
       menuList: [],
-      keyword: ""
+      keyword: "",
+      randomInfo: null
     };
   },
   components: {
@@ -34,7 +36,14 @@ export default {
     let temp = getCurrentPageUrlOptions();
     this.keyword = temp.kw || "";
     console.log(temp);
-    this.getMenuList();
+    if (temp.random) {
+      // 从首页的随机按钮过来
+      this.randomInfo = temp.random;
+      this.getRandomMenuList();
+    } else {
+      // 从搜索过来
+      this.getMenuList();
+    }
   },
   methods: {
     getMenuList() {
@@ -49,6 +58,20 @@ export default {
       }).then(res => {
         this.menuList = res;
       });
+    },
+    getRandomMenuList() {
+      request({
+        url: "/menu/random",
+        method: "GET",
+        data: {
+          Info: this.randomInfo
+        }
+      }).then(res => {
+        this.menuList = res;
+      });
+    },
+    deleteMenu(index) {
+      this.menuList.splice(index, 1);
     }
   }
 };

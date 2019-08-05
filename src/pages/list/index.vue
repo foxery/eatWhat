@@ -18,7 +18,7 @@
       >
         <carte-box
           :info="item"
-          :type="'delete'"
+          :type="2"
         ></carte-box>
       </div>
     </div>
