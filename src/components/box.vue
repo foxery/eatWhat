@@ -1,12 +1,11 @@
 <template>
   <div
     class="box"
-    v-if="boxInfo.ID>0"
   >
     <div @click="turnToDetail(boxInfo.ID)">
       <div class="menu-banner">
         <image
-          :src="boxInfo.Cover"
+          :src="IMAGE_URL+boxInfo.Cover"
           alt=""
           mode="widthFix"
         >
@@ -50,6 +49,7 @@ export default {
   },
   data() {
     return {
+      IMAGE_URL: IMAGE_URL + "/",
       boxInfo: {
         ID: 0,
         CategoryName: "",
@@ -65,7 +65,7 @@ export default {
     }
   },
   mounted() {
-    if (this.info.ID > 0) {
+    if (this.info) {
       this.boxInfo = this.info;
       this.category.forEach(val => {
         if (val.type == this.boxInfo.Category) {

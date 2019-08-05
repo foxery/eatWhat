@@ -21,10 +21,10 @@
           v-for="item in detailData.Ingredients"
           :key="item.ID"
         >
-          <div class="left">食材</div>
+          <div class="left">{{item.Name}}</div>
           <div class="right">
             <span>{{item.Number}}</span>
-            <span>单位</span>
+            <span>{{item.Unit}}</span>
           </div>
         </li>
       </ul>
@@ -32,7 +32,7 @@
     <div class="wrapper">
       <div class="banner-wrapper">
         <image
-          src="/static/images/demo.jpg"
+          :src="IMAGE_URL+detailData.Cover"
           alt=""
           mode="widthFix"
         ></image>
@@ -48,10 +48,10 @@
           v-for="item in detailData.Ingredients"
           :key="item.ID"
         >
-          <div class="left">食材</div>
+          <div class="left">{{item.Name}}</div>
           <div class="right">
             <span>{{item.Number}}</span>
-            <span>单位</span>
+            <span>{{item.Unit}}</span>
           </div>
         </li>
       </ul>
@@ -65,9 +65,11 @@
         <div class="do-content">
           <div>{{item.Detail}}</div>
           <image
-            src="/static/images/demo.jpg"
+            :src="IMAGE_URL+sub"
             alt=""
             mode="widthFix"
+            v-for="(sub,i) in item.Imgs"
+            :key="sub+i"
           ></image>
         </div>
       </div>
@@ -80,30 +82,14 @@
 <script>
 import request from "@/utils/http";
 import { getCurrentPageUrlOptions } from "@/utils/index";
+import store from "@/utils/store";
 
 export default {
   data() {
     return {
+      IMAGE_URL: IMAGE_URL + "/",
       showIngredientsBox: false,
       animatedIn: true,
-      categoryArr: [
-        {
-          name: "荤菜",
-          type: 1
-        },
-        {
-          name: "素菜",
-          type: 2
-        },
-        {
-          name: "半荤",
-          type: 3
-        },
-        {
-          name: "汤",
-          type: 4
-        }
-      ],
       curCategoryName: "",
       detailData: {
         Name: "",
@@ -113,7 +99,11 @@ export default {
       }
     };
   },
-  components: {},
+  computed: {
+    categoryArr() {
+      return store.state.category;
+    }
+  },
   mounted() {
     this.getDetail();
   },
@@ -145,6 +135,15 @@ export default {
             this.curCategoryName = val.name;
           }
         });
+        for (let i = 0; i < this.detailData.Step.length; i++) {
+          if (this.detailData.Step[i].Imgs) {
+            this.detailData.Step[i].Imgs = this.detailData.Step[i].Imgs.split(
+              ","
+            );
+          } else {
+            this.detailData.Step[i].Imgs = [];
+          }
+        }
       });
     }
   }

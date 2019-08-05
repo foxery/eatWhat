@@ -11,8 +11,15 @@
           <div class="inner">{{item.name}}</div>
         </li>
       </ul>
-      <div class="carte-box-wrapper">
-        <carte-box></carte-box>
+      <div
+        class="carte-box-wrapper"
+        v-for="item in menuList"
+        :key="item.ID"
+      >
+        <carte-box
+          :info="item"
+          :type="'delete'"
+        ></carte-box>
       </div>
     </div>
   </div>
@@ -20,38 +27,45 @@
 
 <script>
 import carte from "@/components/box";
+import store from "@/utils/store";
+import request from "@/utils/http";
 
 export default {
   data() {
     return {
       //1-荤菜  2-素菜 3-半荤 4-汤
-      categoryType: "",
-      categoryArr: [
-        {
-          name: "荤菜",
-          type: 1
-        },
-        {
-          name: "素菜",
-          type: 2
-        },
-        {
-          name: "半荤",
-          type: 3
-        },
-        {
-          name: "汤",
-          type: 4
-        }
-      ]
+      categoryType: 0,
+      menuList: []
     };
+  },
+  computed: {
+    categoryArr() {
+      return store.state.category;
+    }
   },
   components: {
     "carte-box": carte
   },
+  mounted() {
+    this.getMenuList();
+  },
   methods: {
     selectCategory(type) {
       this.categoryType = type;
+      this.getMenuList();
+    },
+    getMenuList() {
+      request({
+        url: "/menu/list",
+        method: "GET",
+        data: {
+          Page: 0,
+          Category: this.categoryType,
+          Keyword: ""
+        }
+      }).then(res => {
+        this.menuList = res;
+      });
     }
   }
 };

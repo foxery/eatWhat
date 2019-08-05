@@ -32,6 +32,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env,
       'APPAPI_URL': '"https://api.narro.me/food/v1"',
+      'IMAGE_URL': '"https://api.narro.me/food/v1"',
     }),
     // extract css into its own file
     new ExtractTextPlugin({

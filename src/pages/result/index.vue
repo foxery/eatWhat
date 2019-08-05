@@ -2,7 +2,13 @@
   <div class="container">
     <div class="wrapper">
       <div class="carte-box-wrapper">
-        <carte-box :type="'delete'"></carte-box>
+        <template v-for="item in menuList">
+          <carte-box
+            :key="item.ID"
+            :info="item"
+            :type="'delete'"
+          ></carte-box>
+        </template>
       </div>
     </div>
     <button class="default-size-btn primary-btn block-btn all-btn-position">全部加入今日菜单</button>
@@ -12,17 +18,38 @@
 <script>
 import carte from "@/components/box";
 import { json2Form, getCurrentPageUrlOptions } from "@/utils/index";
+import request from "@/utils/http";
 
 export default {
   data() {
-    return {};
+    return {
+      menuList: [],
+      keyword: ""
+    };
   },
   components: {
     "carte-box": carte
   },
   mounted() {
     let temp = getCurrentPageUrlOptions();
+    this.keyword = temp.kw || "";
     console.log(temp);
+    this.getMenuList();
+  },
+  methods: {
+    getMenuList() {
+      request({
+        url: "/menu/list",
+        method: "GET",
+        data: {
+          Page: 0,
+          Category: 0,
+          Keyword: this.keyword
+        }
+      }).then(res => {
+        this.menuList = res;
+      });
+    }
   }
 };
 </script>

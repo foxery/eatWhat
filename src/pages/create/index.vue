@@ -7,27 +7,7 @@
         :btnType="'done'"
         ref="name"
       ></edit-bar>
-      <div class="relative">
-        <div class="banner-wrapper">
-          <image
-            src="/static/images/upload_bg.jpg"
-            alt=""
-            mode="widthFix"
-          >
-          </image>
-        </div>
-        <div class="create-btn-wrapper">
-          <div class="create-btn-box">
-            <image
-              src="/static/images/icn_add.png"
-              alt=""
-              mode="widthFix"
-            >
-            </image>
-            添加菜谱封面
-          </div>
-        </div>
-      </div>
+      <cover-upload ref="cover"></cover-upload>
       <div class="title-primary">所选分类</div>
       <ul class="tab-list clear">
         <li
@@ -103,38 +83,7 @@
           auto-height="true"
           v-model="item.Detail"
         ></textarea>
-        <div class="clear upload-box-wrapper">
-          <div
-            class="upload-box"
-            v-for="(sub,subi) in item.Imgs"
-            :key="sub"
-          >
-            <image
-              :src="sub"
-              alt=""
-              mode="widthFix"
-            >
-            </image>
-            <image
-              src="/static/images/icn_delete2.png"
-              alt=""
-              mode="widthFix"
-              class="delete-upload-icn"
-              @click="deleteUploadStepImg(i,subi)"
-            >
-            </image>
-          </div>
-          <div class="upload-box">
-            <image
-              src="/static/images/icn_add.png"
-              alt=""
-              mode="widthFix"
-              class="add-image-icn"
-              @click="uploadStepImg(i)"
-            >
-            </image>
-          </div>
-        </div>
+        <step-upload ref="stepImg"></step-upload>
       </div>
       <button
         class="add-row-btn"
@@ -158,12 +107,13 @@
 <script>
 import editBar from "@/components/search";
 import request from "@/utils/http";
+import coverUpload from "@/components/coverUpload";
+import stepUpload from "@/components/stepUpload";
 
 export default {
   data() {
     return {
       icn: "/static/images/icn_edit.png",
-      coverUrl: "test",
       //1-荤菜  2-素菜 3-半荤 4-汤
       categoryType: 0,
       categoryArr: [
@@ -201,7 +151,9 @@ export default {
     };
   },
   components: {
-    "edit-bar": editBar
+    "edit-bar": editBar,
+    "cover-upload": coverUpload,
+    "step-upload": stepUpload
   },
   methods: {
     createBtn() {
@@ -216,7 +168,8 @@ export default {
         });
         return;
       }
-      if (!this.coverUrl) {
+      let coverUrl = this.$refs.cover.getCoverUrls();
+      if (!coverUrl || coverUrl.length == 0) {
         wx.showToast({
           icon: "none",
           title: "请选择菜谱封面",
@@ -248,19 +201,21 @@ export default {
         });
         return;
       }
-      sTemp = sTemp.map(value => {
-        if (value.Imgs) {
-          value.Imgs = value.Imgs.join(",");
+      let stepImgTargets = this.$refs.stepImg;
+      for (let i = 0; i < sTemp.length; i++) {
+        if (stepImgTargets[i] && stepImgTargets[i].getStepUrls().length > 0) {
+          sTemp[i].Imgs = stepImgTargets[i].getStepUrls().join(",");
+        }else{
+          sTemp[i].Imgs="";
         }
-        return value;
-      });
+      }
       iTemp = iTemp.map(value => {
         value.Number = +value.Number;
         return value;
       });
       let info = {
         Name: name,
-        Cover: this.coverUrl,
+        Cover: coverUrl[0],
         Remark: this.remark,
         Category: this.categoryType,
         Step: sTemp,
@@ -344,37 +299,7 @@ export default {
 .wrapper {
   padding: rpx(15) rpx(30);
 }
-.banner-wrapper {
-  border-radius: rpx(15);
-  overflow: hidden;
-  margin-top: rpx(15);
-}
-.create-btn-wrapper {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background-color: rgba(255, 255, 255, 0.9);
-  z-index: 10;
-}
-.create-btn-box {
-  border-radius: rpx(4);
-  background-color: rgba(255, 255, 255, 0.8);
-  color: #4b566a;
-  font-size: rpx(14);
-  padding: rpx(20);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  image {
-    width: rpx(15);
-    margin-right: rpx(5);
-    vertical-align: middle;
-    display: inline-block;
-  }
-}
+
 .ingredient-list {
   > li {
     border-radius: rpx(4);
@@ -448,41 +373,7 @@ export default {
   margin-top: rpx(10);
   font-weight: normal;
 }
-.upload-box-wrapper {
-  margin-left: rpx(-10);
-}
-.upload-box {
-  border: rpx(1) solid #d6d4d4;
-  border-radius: rpx(4);
-  width: 20%;
-  height: 0;
-  padding-bottom: 20%;
-  position: relative;
-  text-align: center;
-  float: left;
-  margin-left: rpx(10);
-  margin-top: rpx(10);
-  image {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    left: 0;
-    top: 0;
-  }
-  .add-image-icn {
-    top: 20%;
-    left: 20%;
-    width: 60%;
-  }
-  .delete-upload-icn {
-    position: absolute;
-    width: rpx(20);
-    height: rpx(20);
-    right: rpx(-5);
-    top: rpx(-5);
-    left: initial;
-  }
-}
+
 .remark-textarea {
   height: rpx(25);
   color: #868585;

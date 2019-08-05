@@ -28,7 +28,7 @@ function request(options) {
                     resolve(res.data.Data)
                 } else {
                     switch (res.data.Code) {
-                        case 403:
+                        case 401:
                             // token失效
                             login(options);
                             break;
