@@ -10,9 +10,19 @@
             mode="widthFix"
           ></image>
         </div>
-        <button class="primary-btn default-size-btn pill random-btn animated tada">清空全部菜单</button>
+        <button
+          class="primary-btn default-size-btn pill random-btn animated tada"
+          @click="clearMenu"
+        >清空全部菜单</button>
         <div class="list-wrapper">
-          <carte-box :type="2"></carte-box>
+          <carte-box
+            v-for="item in menuList"
+            :key="item.ID"
+            :info="item"
+            :type="2"
+            ref="menu"
+            @deleteMenu="deleteMenu(item.ID)"
+          ></carte-box>
         </div>
       </div>
     </div>
@@ -23,14 +33,61 @@
 <script>
 import bottomBar from "@/components/bottomBar";
 import carte from "@/components/box";
+import request from "@/utils/http";
 
 export default {
   data() {
-    return {};
+    return {
+      menuList: []
+    };
   },
   components: {
     "bottom-bar": bottomBar,
     "carte-box": carte
+  },
+  mounted() {
+    this.getMenuList();
+  },
+  methods: {
+    getMenuList() {
+      request({
+        url: "/today/menu",
+        method: "GET"
+      }).then(res => {
+        this.menuList = res;
+      });
+    },
+    deleteMenu(id) {
+      request({
+        url: "/today/menu/remove",
+        method: "PUT",
+        data: {
+          MenuID: [id]
+        }
+      }).then(() => {
+        this.getMenuList();
+      });
+    },
+    clearMenu() {
+      let ids = [];
+      this.menuList.forEach(val => {
+        ids.push(val.ID);
+      });
+      request({
+        url: "/today/menu/remove",
+        method: "PUT",
+        data: {
+          MenuID: ids
+        }
+      }).then(() => {
+        wx.showToast({
+          icon: "none",
+          title: "成功清除所有今日菜单",
+          duration: 2000
+        });
+        this.getMenuList();
+      });
+    }
   }
 };
 </script>
@@ -69,5 +126,6 @@ export default {
   top: rpx(150);
   left: rpx(10);
   right: rpx(10);
+  padding-bottom: rpx(100);
 }
 </style>

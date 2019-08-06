@@ -11,25 +11,25 @@ const store = new Vuex.Store({
     category: [
       {
         name: "荤菜",
-        amount: 1,
+        amount: 0,
         icn: "/static/images/category_icn_meat.png",
         type: 1
       },
       {
         name: "素菜",
-        amount: 1,
+        amount: 0,
         icn: "/static/images/category_icn_vegetables.png",
         type: 2
       },
       {
         name: "半荤",
-        amount: 1,
+        amount: 0,
         icn: "/static/images/category_icn_hulfmeat.png",
         type: 3
       },
       {
         name: "汤",
-        amount: 1,
+        amount: 0,
         icn: "/static/images/category_icn_soup.png",
         type: 4
       }

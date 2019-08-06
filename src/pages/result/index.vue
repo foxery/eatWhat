@@ -12,13 +12,16 @@
         ></carte-box>
       </div>
     </div>
-    <button class="default-size-btn primary-btn block-btn all-btn-position">全部加入今日菜单</button>
+    <button
+      class="default-size-btn primary-btn block-btn all-btn-position"
+      @click="allToMenu"
+    >全部加入今日菜单</button>
   </div>
 </template>
 
 <script>
 import carte from "@/components/box";
-import { json2Form, getCurrentPageUrlOptions } from "@/utils/index";
+import { getCurrentPageUrlOptions } from "@/utils/index";
 import request from "@/utils/http";
 
 export default {
@@ -72,6 +75,31 @@ export default {
     },
     deleteMenu(index) {
       this.menuList.splice(index, 1);
+    },
+    allToMenu() {
+      let ids = [];
+      this.menuList.forEach(val => {
+        ids.push(val.ID);
+      });
+      request({
+        url: "/today/menu",
+        mask: true,
+        data: {
+          MenuID: ids
+        },
+        method: "PUT"
+      }).then(() => {
+        wx.showToast({
+          icon: "none",
+          title: "成功添加到今日菜单",
+          duration: 2000
+        });
+        setTimeout(() => {
+          wx.navigateTo({
+            url: "/pages/menu/main"
+          });
+        }, 2000);
+      });
     }
   }
 };

@@ -19,7 +19,7 @@
     </div>
     <div
       class="add-wrapper"
-      @click="changeTodayMenu(3)"
+      @click="changeTodayMenu(boxInfo.ID)"
     >
       <div class="add-box">
         <template v-if="type==1">+</template>

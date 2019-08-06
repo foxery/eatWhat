@@ -218,6 +218,7 @@ export default {
         image {
           position: absolute;
           width: 50%;
+          height: 50%;
           top: 25%;
           left: 25%;
         }

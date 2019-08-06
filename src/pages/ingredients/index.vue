@@ -35,37 +35,19 @@
 
 <script>
 import bottomBar from "@/components/bottomBar";
+import request from "@/utils/http";
 
 export default {
   data() {
     return {
-      ingredientsArr: [
-        {
-          Name: "土豆",
-          Unit: "个",
-          Number: "2"
-        },
-        {
-          Name: "茄子",
-          Unit: "个",
-          Number: "10"
-        },
-        {
-          Name: "鸡腿",
-          Unit: "个",
-          Number: "1"
-        }
-      ]
+      ingredientsArr: []
     };
   },
   components: {
     "bottom-bar": bottomBar
   },
   mounted() {
-    this.ingredientsArr = this.ingredientsArr.map(val => {
-      val.Completed = false;
-      return val;
-    });
+    this.getIngredientsList();
   },
   methods: {
     complete(index) {
@@ -75,6 +57,19 @@ export default {
         this.ingredientsArr.splice(index, 1);
         this.ingredientsArr.push(temp);
       }
+    },
+    getIngredientsList() {
+      request({
+        url: "/today/food",
+        method: "GET",
+        mask: true
+      }).then(res => {
+        this.ingredientsArr = res;
+        this.ingredientsArr = this.ingredientsArr.map(val => {
+          val.Completed = false;
+          return val;
+        });
+      });
     }
   }
 };
@@ -102,6 +97,7 @@ export default {
   top: rpx(200);
   left: rpx(10);
   right: rpx(10);
+  padding-bottom: rpx(100);
 }
 .ingredient-list {
   > li {
