@@ -29,52 +29,53 @@
         </li>
       </ul>
     </div>
-    <div class="wrapper">
-      <div class="banner-wrapper">
-        <image
-          :src="IMAGE_URL+detailData.Cover"
-          alt=""
-          mode="widthFix"
-        ></image>
-      </div>
-      <div class="detail-title-wrapper">
-        <div class="tag primary-light">{{curCategoryName}}</div>
-        <div class="menu-info-title">{{detailData.Name}}</div>
-      </div>
-      <div class="detail-subtitle title-primary">食材</div>
-      <ul class="detail-ingredient-list">
-        <li
-          class="clear"
-          v-for="item in detailData.Ingredients"
+    <div class="relative">
+      <image
+        :src="IMAGE_URL+detailData.Cover"
+        alt=""
+        mode="aspectFill"
+        class="cover-img"
+      ></image>
+      <div class="wrapper">
+        <div class="detail-title-wrapper">
+          <div class="tag primary-light">{{curCategoryName}}</div>
+          <div class="menu-info-title">{{detailData.Name}}</div>
+        </div>
+        <div class="detail-subtitle title-primary">食材</div>
+        <ul class="detail-ingredient-list">
+          <li
+            class="clear"
+            v-for="item in detailData.Ingredients"
+            :key="item.ID"
+          >
+            <div class="left">{{item.Name}}</div>
+            <div class="right">
+              <span>{{item.Number}}</span>
+              <span>{{item.Unit}}</span>
+            </div>
+          </li>
+        </ul>
+        <div class="detail-subtitle title-primary">做法</div>
+        <div
+          class="do-box"
+          v-for="item in detailData.Step"
           :key="item.ID"
         >
-          <div class="left">{{item.Name}}</div>
-          <div class="right">
-            <span>{{item.Number}}</span>
-            <span>{{item.Unit}}</span>
+          <div class="do-title"></div>
+          <div class="do-content">
+            <div>{{item.Detail}}</div>
+            <image
+              :src="IMAGE_URL+sub"
+              alt=""
+              mode="widthFix"
+              v-for="(sub,i) in item.Imgs"
+              :key="sub+i"
+            ></image>
           </div>
-        </li>
-      </ul>
-      <div class="detail-subtitle title-primary">做法</div>
-      <div
-        class="do-box"
-        v-for="item in detailData.Step"
-        :key="item.ID"
-      >
-        <div class="do-title"></div>
-        <div class="do-content">
-          <div>{{item.Detail}}</div>
-          <image
-            :src="IMAGE_URL+sub"
-            alt=""
-            mode="widthFix"
-            v-for="(sub,i) in item.Imgs"
-            :key="sub+i"
-          ></image>
         </div>
+        <div class="detail-subtitle title-primary">温馨提示</div>
+        <div class="do-content">{{detailData.Remark}}</div>
       </div>
-      <div class="detail-subtitle title-primary">温馨提示</div>
-      <div class="do-content">{{detailData.Remark}}</div>
     </div>
   </div>
 </template>
@@ -161,11 +162,24 @@ export default {
   padding-bottom: rpx(30);
 }
 .wrapper {
-  padding: rpx(15) rpx(30);
+  padding: rpx(15);
+  position: absolute;
+  left: rpx(30);
+  right: rpx(30);
+  z-index: 1;
+  top: rpx(220);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: rpx(8);
+  box-shadow: 0 0 rpx(5) 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: rpx(30);
 }
 .banner-wrapper {
   border-radius: rpx(15);
   overflow: hidden;
+}
+.cover-img {
+  width: 100%;
+  height: rpx(280);
 }
 .menu-info-title {
   font-size: rpx(16);
@@ -212,6 +226,7 @@ export default {
   font-size: rpx(14);
   image {
     margin-top: rpx(5);
+    width: 100%;
   }
 }
 .do-box {

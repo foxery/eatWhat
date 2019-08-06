@@ -18,13 +18,25 @@
       </div>
     </div>
     <div
-      class="add-wrapper"
-      @click="changeTodayMenu(boxInfo.ID)"
+      class="handle-bar"
+      v-if="type>0"
     >
-      <div class="add-box">
-        <template v-if="type==1">+</template>
-        <template v-else>-</template>
-      </div>
+      <image
+        src="/static/images/icn_add_sm.png"
+        alt=""
+        mode="widthFix"
+        v-if="type==1"
+        @click="addTodayMenu(boxInfo.ID)"
+      >
+      </image>
+      <image
+        src="/static/images/icn_delete_sm.png"
+        alt=""
+        mode="widthFix"
+        v-if="type==2"
+        @click="deleteMenu"
+      >
+      </image>
     </div>
   </div>
 </template>
@@ -90,25 +102,24 @@ export default {
         url: "/pages/detail/main?id=" + id
       });
     },
-    changeTodayMenu(id) {
-      if (this.type == 1) {
-        request({
-          url: "/today/menu",
-          mask: true,
-          data: {
-            MenuID: [id]
-          },
-          method: "PUT"
-        }).then(() => {
-          wx.showToast({
-            icon: "none",
-            title: "成功添加今日菜单",
-            duration: 2000
-          });
+    addTodayMenu(id) {
+      request({
+        url: "/today/menu",
+        mask: true,
+        data: {
+          MenuID: [id]
+        },
+        method: "PUT"
+      }).then(() => {
+        wx.showToast({
+          icon: "none",
+          title: "成功添加今日菜单",
+          duration: 2000
         });
-      } else {
-        this.$emit("deleteMenu");
-      }
+      });
+    },
+    deleteMenu() {
+      this.$emit("deleteMenu");
     }
   }
 };
@@ -148,25 +159,22 @@ export default {
   color: #494c4e;
   margin-top: rpx(20);
 }
-.add-wrapper {
+.handle-bar {
+  background-color: #fff;
   position: absolute;
-  right: rpx(20);
-  top: rpx(20);
   z-index: 10;
-  width: rpx(40);
-  height: rpx(40);
-  background-color: rgba($primary-color, 0.5);
-  border-radius: 50%;
-  padding: rpx(7);
-}
-.add-box {
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  background-color: $primary-color;
-  text-align: center;
-  line-height: rpx(36);
-  font-size: rpx(30);
-  color: darken($primary-color, 20%);
+  right: 0;
+  top: 0;
+  border-radius: rpx(2);
+  font-size: 0;
+  padding: rpx(5);
+  image {
+    width: rpx(20);
+    height: rpx(20);
+    display: inline-block;
+    + image {
+      margin-left: rpx(10);
+    }
+  }
 }
 </style>

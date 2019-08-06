@@ -65,6 +65,11 @@ export default {
           MenuID: [id]
         }
       }).then(() => {
+        wx.showToast({
+          icon: "none",
+          title: "成功从今日菜单中移除",
+          duration: 2000
+        });
         this.getMenuList();
       });
     },
