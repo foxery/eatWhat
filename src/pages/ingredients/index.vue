@@ -102,7 +102,7 @@ export default {
 .ingredient-list {
   > li {
     border-radius: rpx(4);
-    box-shadow: 0 0 rpx(5) 0 rgba($primary-color, 0.1);
+    box-shadow: 0 0 rpx(5) 0 rgba(0,0,0, 0.1);
     font-size: rpx(14);
     padding: rpx(10) rpx(20);
     background-color: #fff;

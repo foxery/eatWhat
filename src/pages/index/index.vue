@@ -57,21 +57,20 @@
       </div>
       <div class="carte-wrapper">
         <navigator
-          class="more-link"
-          url="/pages/list/main"
-          hover-class="none"
-        >查看全部 ></navigator>
-        <template v-for="item in menuList">
-          <carte-box
-            :key="item.ID"
-            :info="item"
-          ></carte-box>
-        </template>
-        <navigator
           class="create-btn"
           url="/pages/create/main"
           hover-class="none"
         >+ 创建菜谱</navigator>
+        <navigator
+          class="more-link"
+          url="/pages/list/main"
+          hover-class="none"
+        >查看全部 ></navigator>
+        <carte-box
+          :key="item.ID"
+          :info="item"
+          v-for="item in menuList"
+        ></carte-box>
       </div>
     </div>
     <bottom-bar :active="'index'"></bottom-bar>
@@ -111,15 +110,27 @@ export default {
     randomClick() {
       let info = [];
       console.log(this.randomCategory);
+      let flag = false;
       for (let i = 0; i < this.randomCategory.length; i++) {
+        if (+this.randomCategory[i].amount > 0) {
+          flag = true;
+        }
         info.push({
           ID: this.randomCategory[i].type,
           Num: this.randomCategory[i].amount
         });
       }
-      wx.navigateTo({
-        url: "/pages/result/main?random=" + JSON.stringify(info)
-      });
+      if (flag) {
+        wx.navigateTo({
+          url: "/pages/result/main?random=" + JSON.stringify(info)
+        });
+      } else {
+        wx.showToast({
+          icon: "none",
+          title: "请先选择您需要的菜谱数量",
+          duration: 2000
+        });
+      }
     },
     randomCategorySelect(type) {
       this.randomActive = type;
@@ -164,7 +175,7 @@ export default {
 
 .container {
   min-height: 100vh;
-  padding-bottom: rpx(80);
+  padding-bottom: rpx(100);
 }
 .title {
   font-size: rpx(20);
@@ -272,7 +283,7 @@ export default {
 }
 .more-link {
   font-size: rpx(12);
-  color: $primary-color;
+  color: #333;
   text-align: right;
   margin-bottom: rpx(10);
   &:active {
@@ -290,5 +301,6 @@ export default {
   line-height: rpx(35);
   text-align: center;
   margin-top: rpx(30);
+  margin-bottom: rpx(10);
 }
 </style>

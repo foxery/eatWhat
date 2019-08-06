@@ -11,7 +11,7 @@
       </div>
       <div class="menu-info-wrapper">
         <div>
-          <div class="tag primary-light">{{boxInfo.CategoryName}}</div>
+          <div class="tag primary">{{boxInfo.CategoryName}}</div>
           <div class="menu-info-title">{{boxInfo.Name}}</div>
         </div>
         <div class="menu-info-text">{{boxInfo.ingredientsText}}</div>

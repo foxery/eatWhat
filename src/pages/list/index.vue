@@ -108,7 +108,7 @@ export default {
       .inner {
         @include gradient($primary-color, $second-color);
         box-shadow: rpx(1) rpx(1) rpx(8) rpx(1) rgba($primary-color, 0.3);
-        color: #fff;
+        color: #333;
         border: none;
         height: rpx(34);
         line-height: rpx(34);

@@ -6,13 +6,14 @@
           src="/static/images/icn_index_active.png"
           alt=""
           mode="widthFix"
-          class="animated bounce"
+          class="animated bounce icn-big"
           v-if="active=='index'"
         ></image>
         <image
           src="/static/images/icn_index.png"
           alt=""
           mode="widthFix"
+          class="icn-big"
           v-else
         ></image>
       </li>
@@ -107,19 +108,24 @@ export default {
       height: rpx(25);
       display: block;
       margin: auto;
+      &.icn-big {
+        width: rpx(35);
+        height: rpx(35);
+      }
     }
+
     .middle-box {
       border-radius: rpx(4);
       width: rpx(50);
       height: rpx(50);
-      background-color: $second-light-color;
+      background-color: $primary-light-color;
       display: block;
       position: absolute;
       top: rpx(-25);
       left: 50%;
       transform: translateX(-50%) rotate(45deg);
       &.active {
-        background-color: $second-color;
+        background-color: $primary-color;
       }
       image {
         width: rpx(30);

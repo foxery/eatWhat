@@ -38,7 +38,7 @@
       ></image>
       <div class="wrapper">
         <div class="detail-title-wrapper">
-          <div class="tag primary-light">{{curCategoryName}}</div>
+          <div class="tag primary">{{curCategoryName}}</div>
           <div class="menu-info-title">{{detailData.Name}}</div>
         </div>
         <div class="detail-subtitle title-primary">食材</div>
@@ -244,7 +244,7 @@ export default {
   height: rpx(35);
   text-align: center;
   box-shadow: 0 0 rpx(5) 0 rgba($primary-color, 0.1);
-  @include gradient($primary-color, $second-color, to right, 50%);
+  background-color: $primary-color;
   image {
     width: 80%;
     margin-top: rpx(3);

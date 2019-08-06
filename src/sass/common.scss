@@ -63,9 +63,9 @@ button {
 }
 
 .primary-btn {
-    color: #fff;
-    @include gradient($primary-color, $second-color);
+    color: #333;
     box-shadow: 0 rpx(3) rpx(5) 0 rgba($primary-color, 0.1);
+    background-color: $primary-color;
 }
 
 .pill {
@@ -83,6 +83,11 @@ button {
     &.primary-light {
         color: darken($primary-light-color, 30%);
         background-color: #E9E9E9;
+    }
+
+    &.primary {
+        color: #333;
+        background-color: $primary-color;
     }
 }
 
