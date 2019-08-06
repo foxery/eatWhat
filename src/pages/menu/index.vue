@@ -14,7 +14,10 @@
           class="primary-btn default-size-btn pill random-btn animated tada"
           @click="clearMenu"
         >清空全部菜单</button>
-        <div class="list-wrapper">
+        <div
+          class="list-wrapper"
+          v-if="menuList.length>0"
+        >
           <carte-box
             v-for="item in menuList"
             :key="item.ID"
@@ -24,6 +27,13 @@
             @deleteMenu="deleteMenu(item.ID)"
           ></carte-box>
         </div>
+        <image
+          src="/static/images/empty.png"
+          alt=""
+          mode="widthFix"
+          class="empty-img"
+          v-else
+        ></image>
       </div>
     </div>
     <bottom-bar :active="'menu'"></bottom-bar>

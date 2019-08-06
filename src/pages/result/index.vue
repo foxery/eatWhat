@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      <div class="carte-box-wrapper">
+      <div
+        class="carte-box-wrapper"
+        v-if="menuList.length>0"
+      >
         <carte-box
           v-for="(item,index) in menuList"
           :key="item.ID"
@@ -11,10 +14,18 @@
           @deleteMenu="deleteMenu(index)"
         ></carte-box>
       </div>
+      <image
+        src="/static/images/empty.png"
+        alt=""
+        mode="widthFix"
+        class="empty-img"
+        v-else
+      ></image>
     </div>
     <button
       class="default-size-btn primary-btn block-btn all-btn-position"
       @click="allToMenu"
+      v-if="menuList.length>0"
     >全部加入今日菜单</button>
   </div>
 </template>

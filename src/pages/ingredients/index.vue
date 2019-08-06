@@ -9,7 +9,10 @@
             mode="widthFix"
           ></image>
         </div>
-        <div class="list-wrapper">
+        <div
+          class="list-wrapper"
+          v-if="ingredientsArr.length>0"
+        >
           <ul class="ingredient-list">
             <li
               class="clear"
@@ -27,6 +30,13 @@
             </li>
           </ul>
         </div>
+        <image
+          src="/static/images/empty.png"
+          alt=""
+          mode="widthFix"
+          class="empty-img"
+          v-else
+        ></image>
       </div>
     </div>
     <bottom-bar :active="'ingredients'"></bottom-bar>
@@ -102,7 +112,7 @@ export default {
 .ingredient-list {
   > li {
     border-radius: rpx(4);
-    box-shadow: 0 0 rpx(5) 0 rgba(0,0,0, 0.1);
+    box-shadow: 0 0 rpx(5) 0 rgba(0, 0, 0, 0.1);
     font-size: rpx(14);
     padding: rpx(10) rpx(20);
     background-color: #fff;

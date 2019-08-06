@@ -246,8 +246,9 @@ export default {
   box-shadow: 0 0 rpx(5) 0 rgba($primary-color, 0.1);
   background-color: $primary-color;
   image {
-    width: 80%;
-    margin-top: rpx(3);
+    width: rpx(20);
+    height: rpx(20);
+    margin-top: rpx(7.5);
   }
 }
 .list-suspension-list {

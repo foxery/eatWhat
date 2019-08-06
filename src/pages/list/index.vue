@@ -21,6 +21,13 @@
           :type="2"
         ></carte-box>
       </div>
+      <image
+        src="/static/images/empty.png"
+        alt=""
+        mode="widthFix"
+        class="empty-img"
+        v-if="menuList.length==0"
+      ></image>
     </div>
   </div>
 </template>
@@ -80,6 +87,7 @@ export default {
 .container {
   min-height: 100vh;
   padding-bottom: rpx(80);
+  box-sizing:border-box;
 }
 .wrapper {
   padding: rpx(15) rpx(30);

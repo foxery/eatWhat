@@ -61,16 +61,25 @@
           url="/pages/create/main"
           hover-class="none"
         >+ 创建菜谱</navigator>
-        <navigator
-          class="more-link"
-          url="/pages/list/main"
-          hover-class="none"
-        >查看全部 ></navigator>
-        <carte-box
-          :key="item.ID"
-          :info="item"
-          v-for="item in menuList"
-        ></carte-box>
+        <template v-if="menuList.length>0">
+          <navigator
+            class="more-link"
+            url="/pages/list/main"
+            hover-class="none"
+          >查看全部 ></navigator>
+          <carte-box
+            :key="item.ID"
+            :info="item"
+            v-for="item in menuList"
+          ></carte-box>
+        </template>
+        <image
+          src="/static/images/empty.png"
+          alt=""
+          mode="widthFix"
+          class="empty-img"
+          v-else
+        ></image>
       </div>
     </div>
     <bottom-bar :active="'index'"></bottom-bar>
