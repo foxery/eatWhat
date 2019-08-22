@@ -47,7 +47,7 @@ import store from "@/utils/store";
 
 export default {
   props: {
-    //1-添加到今日菜单  2-删除
+    //0-不显示 1-添加到今日菜单  2-删除
     type: {
       type: String,
       default: 1

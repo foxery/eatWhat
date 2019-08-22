@@ -18,7 +18,7 @@
       >
         <carte-box
           :info="item"
-          :type="2"
+          :type="1"
         ></carte-box>
       </div>
       <image
@@ -53,7 +53,7 @@ export default {
   components: {
     "carte-box": carte
   },
-  mounted() {
+  onShow() {
     this.getMenuList();
   },
   methods: {

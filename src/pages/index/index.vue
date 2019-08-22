@@ -112,13 +112,12 @@ export default {
     "search-bar": search,
     "carte-box": carte
   },
-  mounted() {
+  onShow() {
     this.getMenuList();
   },
   methods: {
     randomClick() {
       let info = [];
-      console.log(this.randomCategory);
       let flag = false;
       for (let i = 0; i < this.randomCategory.length; i++) {
         if (+this.randomCategory[i].amount > 0) {

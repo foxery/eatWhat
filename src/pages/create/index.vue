@@ -43,7 +43,7 @@
               ></div>
             <div class="ingredient-amount right">
               <input
-                type="number"
+                type="digit"
                 class="ingredient-amount-input"
                 placeholder="用量"
                 v-model="item.Number"
@@ -232,7 +232,7 @@ export default {
           duration: 2000
         });
         setTimeout(() => {
-          wx.navigateTo({
+          wx.redirectTo({
             url: "/pages/detail/main?id=" + res.ID
           });
         }, 1000);
