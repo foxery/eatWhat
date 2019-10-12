@@ -40,7 +40,9 @@ export default {
     return {
       menuList: [],
       keyword: "",
-      randomInfo: null
+      randomInfo: null,
+      curPage: 0,
+      totalPage: 1
     };
   },
   components: {
@@ -49,7 +51,6 @@ export default {
   mounted() {
     let temp = getCurrentPageUrlOptions();
     this.keyword = temp.kw || "";
-    console.log(temp);
     if (temp.random) {
       // 从首页的随机按钮过来
       this.randomInfo = temp.random;
@@ -59,18 +60,26 @@ export default {
       this.getMenuList();
     }
   },
+  onReachBottom() {
+    // 滚动至底部加载
+    this.curPage++;
+    if (this.curPage < this.totalPage && !this.randomInfo) {
+      this.getMenuList();
+    }
+  },
   methods: {
     getMenuList() {
       request({
         url: "/menu/list",
         method: "GET",
         data: {
-          Page: 0,
+          Page: this.curPage,
           Category: 0,
           Keyword: this.keyword
         }
       }).then(res => {
-        this.menuList = res;
+        this.totalPage = Math.ceil(res.Total / res.Pagesize);
+        this.menuList.push(...res.Data);
       });
     },
     getRandomMenuList() {

@@ -169,7 +169,7 @@ export default {
           Keyword: ""
         }
       }).then(res => {
-        this.menuList = res;
+        this.menuList = res.Data;
       });
     }
   }

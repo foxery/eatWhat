@@ -42,7 +42,9 @@ export default {
     return {
       //1-荤菜  2-素菜 3-半荤 4-汤
       categoryType: 0,
-      menuList: []
+      menuList: [],
+      curPage: 0,
+      totalPage: 1
     };
   },
   computed: {
@@ -56,6 +58,13 @@ export default {
   onShow() {
     this.getMenuList();
   },
+  onReachBottom() {
+    // 滚动至底部加载
+    this.curPage++;
+    if (this.curPage < this.totalPage) {
+      this.getMenuList();
+    }
+  },
   methods: {
     selectCategory(type) {
       this.categoryType = type;
@@ -66,12 +75,13 @@ export default {
         url: "/menu/list",
         method: "GET",
         data: {
-          Page: 0,
+          Page: this.curPage,
           Category: this.categoryType,
           Keyword: ""
         }
       }).then(res => {
-        this.menuList = res;
+        this.totalPage = Math.ceil(res.Total / res.Pagesize);
+        this.menuList.push(...res.Data);
       });
     }
   }
@@ -87,7 +97,7 @@ export default {
 .container {
   min-height: 100vh;
   padding-bottom: rpx(80);
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 .wrapper {
   padding: rpx(15) rpx(30);
